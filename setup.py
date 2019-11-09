@@ -2,7 +2,7 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
-    name='analytic_shrinkage',
+    name='NonLinShrink',
     version='0.1',
     scripts=['as_exec'],
     author="Matz Haugen",
@@ -20,4 +20,5 @@ setuptools.setup(
 )
 
 # Create Whl: python setup.py bdist_wheel
+# Local installation: python -m pip install dist/[name-of-whl]
 # Push to pip: python -m twine upload dist/*

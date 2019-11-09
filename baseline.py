@@ -6,7 +6,7 @@ Figure  4
 """
 
 import numpy as np
-import analytic_shrinkage as ana
+import NonLinShrink as nls
 
 
 if __name__ == '__main__':
@@ -30,8 +30,8 @@ if __name__ == '__main__':
             # y = np.linalg.solve(u.T, xx.T)
             s_sqrt = np.eye(p, p) * np.sqrt(lam)
             y = np.dot(xx, s_sqrt)
-            s_tilde = ana.analytic_shrinkage(y)
-            s_sample = ana.sample_cov(y)
+            s_tilde = nls.shrink_cov(y)
+            s_sample = np.cov(y.T)
             pr = ana.prial(s_sample, s_tilde, sigma)
 
             prial[j] = float(pr)

@@ -1,0 +1,7 @@
+README.md
+as_exec
+setup.py
+NonLinShrink.egg-info/PKG-INFO
+NonLinShrink.egg-info/SOURCES.txt
+NonLinShrink.egg-info/dependency_links.txt
+NonLinShrink.egg-info/top_level.txt

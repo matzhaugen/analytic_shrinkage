@@ -1,5 +1,5 @@
 import numpy as np
-import analytic_shrinkage
+import NonLinShrink as nls
 from numpy import prod
 
 
@@ -29,8 +29,7 @@ def test_analytic_shrinkage():
 
     expected = np.array([[1.04344299, 0.0335051],
                          [0.0335051, 1.11112703]])
-
-    sigma_tilde = analytic_shrinkage.analytic_shrinkage(x)
+    sigma_tilde = nls.shrink_cov(x)
 
     np.testing.assert_allclose(sigma_tilde, expected)
 
@@ -43,6 +42,6 @@ def test_large_p():
     sigma = np.eye(p, p)
     data = np.random.multivariate_normal(np.zeros(p), sigma, n)
 
-    sigma_tilde = analytic_shrinkage.analytic_shrinkage(data)
+    sigma_tilde = nls.shrink_cov(data)
     S = np.sum(sigma_tilde[np.eye(p) == 0]) / n_choose_k(p, 2) / np.sum(np.diag(sigma_tilde)) * p
     assert S < 1  # assert that the diagonal is the major contributor

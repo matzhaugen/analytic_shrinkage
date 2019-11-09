@@ -6,7 +6,7 @@ Figure  4
 """
 
 import numpy as np
-import analytic_shrinkage as ana
+import NonLinShrink as nls
 
 CONST = 120000
 
@@ -36,9 +36,9 @@ def high_p():
             # y = np.linalg.solve(u.T, xx.T)
             s_sqrt = np.eye(p, p) * np.sqrt(lam)
             y = np.dot(xx, s_sqrt)
-            s_tilde = ana.analytic_shrinkage(y)
-            s_sample = ana.sample_cov(y)
-            pr = ana.prial(s_sample, s_tilde, sigma)
+            s_tilde = nls.analytic_shrinkage(y)
+            s_sample = np.cov(y.T)
+            pr = nls.prial(s_sample, s_tilde, sigma)
 
             prial[j] = float(pr)
 

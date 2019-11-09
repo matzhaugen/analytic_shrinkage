@@ -2,7 +2,7 @@ import numpy as np
 from numpy import matlib as ml
 
 
-def analytic_shrinkage(data):
+def shrink_cov(data):
     """Shrink covarince matrix using non-linear shrinkage as described in
     Ledoit and Wolf 2018 http://www.econ.uzh.ch/static/wp/econwp264.pdf .
     The code uses an analytic formula which was previously not available
