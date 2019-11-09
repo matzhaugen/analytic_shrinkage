@@ -2,47 +2,28 @@ import numpy as np
 from numpy import matlib as ml
 
 
-def sample_cov(xx):
-    z = scale(xx, scale=False)
-    n, _ = xx.shape
-    return np.dot(z.T, z) / n
-
-
-def scale(xx, center=True, scale=False):
-
-    _, p = xx.shape
-    if center:
-        mean = np.mean(xx, 0)
-    else:
-        mean = np.zeros(p)
-
-    if scale:
-        scale = np.std(xx, 0)
-    else:
-        scale = np.ones(p)
-
-    return (xx - mean[None, :]) / scale[None, :]
-
-
 def analytic_shrinkage(data):
-    """Summary
+    """Shrink covarince matrix using non-linear shrinkage as described in
+    Ledoit and Wolf 2018 http://www.econ.uzh.ch/static/wp/econwp264.pdf .
+    The code uses an analytic formula which was previously not available
+    and is thus much faster because there is no optimization necessary. The code can
+    also handle the high-dimensional setting with p>n .
 
     Args:
-        data (TYPE): Description
+        data (`numpy.ndarray`): Data matrix with each observation in rows of the matrix,
+        i.e. an n-by-p matrix with n observations and p dimensional variables.
 
     Returns:
-        TYPE: Description
+        `numpy.ndarray`: Shrunk covariance matrix
     """
-    # % extract sample eigenvalues sorted in ascending order and eigenvectors
+
     shape = data.shape
     assert len(shape) == 2, 'input must be a 2d array'
     n, p = shape
-    # z = scale(xx, scale=False)
-    z = data
-    # % important:
-    # sample size n must be >= 12
-    assert n >= 12
-    sample = np.dot(z.T, z) / n
+
+    assert n >= 12, "sample size n must be >= 12"
+    sample = np.dot(data.T, data) / n
+    # % extract sample eigenvalues sorted in ascending order and eigenvectors
     lam, u = np.linalg.eigh(sample)
     # compute analytical nonlinear shrinkage kernel formula
     lam = lam[np.maximum(0, p - n):]
@@ -78,7 +59,16 @@ def analytic_shrinkage(data):
 
 
 def prial(sample, sigma_hat, sigma):
+    """Percentage Relative Improvement in Average Loss
 
+    Args:
+        sample (`numpy.ndarray`): Sample covariance
+        sigma_hat (`numpy.ndarray`): Estimated Covariance
+        sigma (`numpy.ndarray`): True Covariance
+
+    Returns:
+        float: Percentage improvement (between 0,1)
+    """
     num = loss_mv(sample, sigma) - loss_mv(sigma_hat, sigma)
     denom = loss_mv(sample, sigma) - loss_mv(fsopt(sample, sigma), sigma)
     return num / float(denom)

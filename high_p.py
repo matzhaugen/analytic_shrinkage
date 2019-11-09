@@ -1,28 +1,43 @@
+"""This code replicates the high dimensional results for the analytic
+shrinkage estimator from the working paper called
+'Analytical Nonlinear Shrinkage of Large-Dimensional Covariance Matrices'
+Ledoit and Wolf 2018
+Figure  4
+"""
+
 import numpy as np
 import analytic_shrinkage as ana
 
+CONST = 120000
 
-if __name__ == '__main__':
 
-    ps = np.arange(start=610, stop=620, step=50)
+def high_p():
 
-    print(ps)
-    e_prial = np.zeros(len(ps))
-    for i, p in enumerate(ps):
-        reps = int(np.maximum(20, np.minimum(20, 1e5 / p)))
+    c = np.arange(start=1.1, stop=10, step=1)
+
+    print(c)
+    e_prial = np.zeros(len(c))
+    for i, ci in enumerate(c):
+        n = int(np.sqrt(CONST / ci))
+        p = int(CONST / n / 2) * 2
+        reps = int(np.maximum(100, np.minimum(100, 1e5 / p)))
+        print(reps)
         prial = np.zeros(reps, dtype=float)
         for j in np.arange(reps):
-
-            n = 600
-            lam = np.concatenate([np.ones(int(p / 5)),
-                                  3 * np.ones(int(2 * p / 5.)),
-                                  10 * np.ones(int(2 * p / 5.))])
+            first = int(p / 5)
+            second = int(2 * p / 5.)
+            third = p - first - second
+            lam = np.concatenate([np.ones(first),
+                                  3 * np.ones(second),
+                                  10 * np.ones(third)])
             sigma = np.diag(np.ones(p) * lam)
             xx = np.random.randn(n, p)
-            _, u = np.linalg.eigh(sigma)
-            y = np.linalg.solve(u.T, xx.T)
-            s_tilde = ana.analytic_shrinkage(xx)
-            s_sample = ana.sample_cov(xx)
+            d, u = np.linalg.eigh(sigma)
+            # y = np.linalg.solve(u.T, xx.T)
+            s_sqrt = np.eye(p, p) * np.sqrt(lam)
+            y = np.dot(xx, s_sqrt)
+            s_tilde = ana.analytic_shrinkage(y)
+            s_sample = ana.sample_cov(y)
             pr = ana.prial(s_sample, s_tilde, sigma)
 
             prial[j] = float(pr)
