@@ -1,7 +1,0 @@
-README.md
-as_exec
-setup.py
-analytic_shrinkage.egg-info/PKG-INFO
-analytic_shrinkage.egg-info/SOURCES.txt
-analytic_shrinkage.egg-info/dependency_links.txt
-analytic_shrinkage.egg-info/top_level.txt
