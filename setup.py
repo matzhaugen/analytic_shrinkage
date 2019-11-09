@@ -3,7 +3,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
     name='NonLinShrink',
-    version='0.1',
+    version='0.2',
     scripts=['as_exec'],
     author="Matz Haugen",
     author_email="matzhaugen@gmail.com",

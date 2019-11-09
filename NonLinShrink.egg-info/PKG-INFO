@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: NonLinShrink
-Version: 0.1
+Version: 0.2
 Summary: Non-Linear Shrinkage Estimator from Ledoit and Wolf (2018) 
 Home-page: https://github.com/matzhaugen/analytic_shrinkage
 Author: Matz Haugen
