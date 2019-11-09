@@ -12,6 +12,8 @@ def n_choose_k(n, k):
 
 
 def test_analytic_shrinkage():
+    """Runs the most simple possible test: 2 variables with 12 samples.
+    """
     x = np.array([[-0.98511153, -0.2599713],
                   [0.20374114, -0.59699234],
                   [0.28570754, 0.77542166],
@@ -34,9 +36,12 @@ def test_analytic_shrinkage():
 
 
 def test_large_p():
+    """Runs the high-dimensional case.
+    """
     p = 13
+    n = 12
     sigma = np.eye(p, p)
-    data = np.random.multivariate_normal(np.zeros(p), sigma, 12)
+    data = np.random.multivariate_normal(np.zeros(p), sigma, n)
 
     sigma_tilde = analytic_shrinkage.analytic_shrinkage(data)
     S = np.sum(sigma_tilde[np.eye(p) == 0]) / n_choose_k(p, 2) / np.sum(np.diag(sigma_tilde)) * p

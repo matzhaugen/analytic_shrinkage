@@ -1,0 +1,2 @@
+#!python
+echo "Hey guys! This is a python version of the ledoit and wolf (2018) non-linear shrinkage estimator"

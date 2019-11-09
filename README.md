@@ -11,10 +11,10 @@ pip install analytic_shrinkage
 
 # Usage
 ```
-import analytic_shrinkage as as
+import analytic_shrinkage as ana
 p = 2
 n = 10
 sigma = np.eye(p, p)
 data = np.random.multivariate_normal(np.zeros(p), sigma, n)
-sigma_tilde = as.analytic_shrinkage(data)
+sigma_tilde = ana.analytic_shrinkage(data)
 ```
