@@ -2,6 +2,18 @@ import numpy as np
 import analytic_shrinkage
 
 
+# def test_basic():
+#     s = np.eye(3, 3)
+#     xx = np.random.multivariate_normal([0, 0, 0], s, 13)
+
+#     expected = np.array([[1.04344299, 0.0335051],
+#                          [0.0335051, 1.11112703]])
+
+#     sigma_tilde = analytic_shrinkage.analytic_shrinkage(xx)
+
+#     np.testing.assert_allclose(sigma_tilde, expected)
+
+
 def test_analytic_shrinkage():
     x = np.array([[-0.98511153, -0.2599713],
                   [0.20374114, -0.59699234],
