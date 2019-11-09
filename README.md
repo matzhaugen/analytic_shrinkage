@@ -18,3 +18,5 @@ sigma = np.eye(p, p)
 data = np.random.multivariate_normal(np.zeros(p), sigma, n)
 sigma_tilde = ana.analytic_shrinkage(data)
 ```
+# Developing
+Please submit a PR! The shrinkage function itself is located in `analytic_shrinkage.py`.
