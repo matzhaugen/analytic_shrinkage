@@ -1,7 +1,10 @@
 README.md
-as_exec
 setup.py
-NonLinShrink.egg-info/PKG-INFO
-NonLinShrink.egg-info/SOURCES.txt
-NonLinShrink.egg-info/dependency_links.txt
-NonLinShrink.egg-info/top_level.txt
+nonlinshrink/__init__.py
+nonlinshrink/nonlinshrink.py
+nonlinshrink.egg-info/PKG-INFO
+nonlinshrink.egg-info/SOURCES.txt
+nonlinshrink.egg-info/dependency_links.txt
+nonlinshrink.egg-info/top_level.txt
+nonlinshrink/test/__init__.py
+nonlinshrink/test/test_analytic_shrinkage.py

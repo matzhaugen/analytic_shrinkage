@@ -2,9 +2,8 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
-    name='NonLinShrink',
-    version='0.2',
-    scripts=['as_exec'],
+    name='nonlinshrink',
+    version='0.5',
     author="Matz Haugen",
     author_email="matzhaugen@gmail.com",
     description="Non-Linear Shrinkage Estimator from Ledoit and Wolf (2018) ",
@@ -19,6 +18,6 @@ setuptools.setup(
     ],
 )
 
-# Create Whl: python setup.py bdist_wheel
+# Create Whl: python setup.py sdist bdist_wheel
 # Local installation: python -m pip install dist/[name-of-whl]
 # Push to pip: python -m twine upload dist/*

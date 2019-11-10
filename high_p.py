@@ -6,7 +6,7 @@ Figure  4
 """
 
 import numpy as np
-import NonLinShrink as nls
+import nonlinshrink as nls
 
 CONST = 120000
 

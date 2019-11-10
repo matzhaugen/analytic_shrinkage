@@ -1,5 +1,5 @@
 import numpy as np
-import NonLinShrink as nls
+import nonlinshrink as nls
 from numpy import prod
 
 

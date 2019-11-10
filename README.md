@@ -6,17 +6,18 @@ the working paper Ledoit and Wolf (2018), entitled ['Analytical Nonlinear Shrink
 
 # Installation
 ```
-pip install NonLinShrink
+pip install nonlinshrink
 ```
 
 # Usage
 ```
-import NonLinShrink as nls
+import numpy as np
+import nonlinshrink as nls
 p = 2
-n = 10
+n = 12
 sigma = np.eye(p, p)
 data = np.random.multivariate_normal(np.zeros(p), sigma, n)
 sigma_tilde = nls.shrink_cov(data)
 ```
 # Developing
-Please submit a PR! The shrinkage function itself is located in `NonLinShrink.py`. 
+Please submit a PR! The shrinkage function itself is located in `import nonlinshrink.py`. 

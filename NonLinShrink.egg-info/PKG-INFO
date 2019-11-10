@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
-Name: NonLinShrink
-Version: 0.2
+Name: nonlinshrink
+Version: 0.5
 Summary: Non-Linear Shrinkage Estimator from Ledoit and Wolf (2018) 
 Home-page: https://github.com/matzhaugen/analytic_shrinkage
 Author: Matz Haugen
@@ -14,12 +14,13 @@ Description: # Non-Linear Shrinkage
         
         # Installation
         ```
-        pip install NonLinShrink
+        pip install nonlinshrink
         ```
         
         # Usage
         ```
-        import NonLinShrink as nls
+        import numpy as np
+        import nonlinshrink as nls
         p = 2
         n = 10
         sigma = np.eye(p, p)
@@ -27,7 +28,7 @@ Description: # Non-Linear Shrinkage
         sigma_tilde = nls.shrink_cov(data)
         ```
         # Developing
-        Please submit a PR! The shrinkage function itself is located in `NonLinShrink.py`. 
+        Please submit a PR! The shrinkage function itself is located in `import nonlinshrink.py`. 
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
