@@ -1,3 +1,7 @@
+# Create Whl: python setup.py sdist bdist_wheel
+# Local installation: python -m pip install dist/[name-of-whl]
+# Push to pip: python -m twine upload dist/*
+
 import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -17,7 +21,3 @@ setuptools.setup(
          "Operating System :: OS Independent",
     ],
 )
-
-# Create Whl: python setup.py sdist bdist_wheel
-# Local installation: python -m pip install dist/[name-of-whl]
-# Push to pip: python -m twine upload dist/*
