@@ -20,4 +20,11 @@ data = np.random.multivariate_normal(np.zeros(p), sigma, n)
 sigma_tilde = nls.shrink_cov(data)
 ```
 # Developing
-Please submit a PR! The shrinkage function itself is located in `import nonlinshrink.py`. 
+Please submit a PR! The shrinkage function itself is located in `nonlinshrink.py`. 
+For running the tests do 
+```
+git clone https://github.com/matzhaugen/analytic_shrinkage.git
+cd analytic_shrinkage
+pip install -e . # install the package
+pytest
+```
