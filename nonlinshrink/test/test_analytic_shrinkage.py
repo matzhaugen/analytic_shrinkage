@@ -47,6 +47,22 @@ def test_demean():
     assert S < 1  # assert that the diagonal is the major contributor
 
 
+def test_ols():
+    """Runs the high-dimensional case.
+    """
+    p = 2
+    n = 14
+    sigma = np.eye(p, p)
+    data = np.random.multivariate_normal(np.zeros(p), sigma, n) + np.arange(n)[:, np.newaxis] + 1
+    x = np.vstack((np.ones(n).T, np.arange(n).T)).T
+    betahat = np.linalg.solve(np.dot(x.T, x), np.dot(x.T, data))
+    datahat = np.dot(x, betahat)
+    res = data - datahat
+    sigma_tilde = nls.shrink_cov(res, k=2)  # corresponding to 2 degrees of freedom
+    S = np.sum(sigma_tilde[np.eye(p) == 0]) / n_choose_k(p, 2) / np.sum(np.diag(sigma_tilde)) * p
+    assert S < 1  # assert that the diagonal is the major contributor
+
+
 def test_large_p():
     """Runs the high-dimensional case.
     """
