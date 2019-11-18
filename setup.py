@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
     name='nonlinshrink',
-    version='0.5',
+    version='0.6',
     author="Matz Haugen",
     author_email="matzhaugen@gmail.com",
     description="Non-Linear Shrinkage Estimator from Ledoit and Wolf (2018) ",
