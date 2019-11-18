@@ -1,6 +1,7 @@
 import numpy as np
 import nonlinshrink as nls
 from numpy import prod
+import pytest
 
 
 def factorial(n):
@@ -61,6 +62,18 @@ def test_ols():
     sigma_tilde = nls.shrink_cov(res, k=2)  # corresponding to 2 degrees of freedom
     S = np.sum(sigma_tilde[np.eye(p) == 0]) / n_choose_k(p, 2) / np.sum(np.diag(sigma_tilde)) * p
     assert S < 1  # assert that the diagonal is the major contributor
+
+
+def test_singular():
+    """Runs the high-dimensional case.
+    """
+    p = 2
+    n = 13
+    sigma = np.eye(p, p)
+    data = np.random.multivariate_normal(np.zeros(p), sigma, n)
+    data = np.hstack((data, data))
+    with pytest.raises(ValueError):
+        sigma_tilde = nls.shrink_cov(data, 0)
 
 
 def test_large_p():

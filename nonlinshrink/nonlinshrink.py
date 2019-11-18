@@ -1,6 +1,8 @@
 import numpy as np
 from numpy import matlib as ml
 
+EPS = 1e-8
+
 
 def shrink_cov(data, k=None):
     """Shrink covarince matrix using non-linear shrinkage as described in
@@ -12,12 +14,12 @@ def shrink_cov(data, k=None):
     Args:
         data (`numpy.ndarray`): Data matrix with each observation in rows of the matrix,
             i.e. an n-by-p matrix with n observations and p dimensional variables.
-        k (int, optional): If this parameter k is None, 
-             the algorithm demeans the data by default, and then adjusts 
+        k (int, optional): If this parameter k is None,
+             the algorithm demeans the data by default, and then adjusts
              the effective sample size accordingly by subtracting one.
             If the user inputs k = 0, then no demeaning takes place and
              the effective sample size remains n.
-             If the user inputs k >= 1, then it signifies that the data X 
+             If the user inputs k >= 1, then it signifies that the data X
              has already been demeaned or otherwise pre-processed; for example,
              the data might constitute OLS residuals based on a linear regression
              model with k regressors. No further demeaning takes place then,
@@ -36,11 +38,14 @@ def shrink_cov(data, k=None):
 
     n = n - k  # effective sample size
     assert n >= 12, "sample size n must be >= 12"
-    sample = np.dot(data.T, data) / n
+    sample_cov = np.dot(data.T, data) / n
+
     # % extract sample eigenvalues sorted in ascending order and eigenvectors
-    lam, u = np.linalg.eigh(sample)
+    lam, u = np.linalg.eigh(sample_cov)
     # compute analytical nonlinear shrinkage kernel formula
     lam = lam[np.maximum(0, p - n):]
+    if any(lam / sum(lam) < EPS):
+        raise ValueError("Matrix is singular")
     L = ml.repmat(lam.T, np.minimum(p, n), 1).T
     h = np.power(n, -1 / 3.)
     # % Equation(4.9)
