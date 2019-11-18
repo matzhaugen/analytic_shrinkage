@@ -2,7 +2,7 @@ import numpy as np
 from numpy import matlib as ml
 
 
-def shrink_cov(data):
+def shrink_cov(data, k=None):
     """Shrink covarince matrix using non-linear shrinkage as described in
     Ledoit and Wolf 2018 http://www.econ.uzh.ch/static/wp/econwp264.pdf .
     The code uses an analytic formula which was previously not available
@@ -11,7 +11,17 @@ def shrink_cov(data):
 
     Args:
         data (`numpy.ndarray`): Data matrix with each observation in rows of the matrix,
-        i.e. an n-by-p matrix with n observations and p dimensional variables.
+            i.e. an n-by-p matrix with n observations and p dimensional variables.
+        k (int, optional): If this parameter k is None, 
+             the algorithm demeans the data by default, and then adjusts 
+             the effective sample size accordingly by subtracting one.
+            If the user inputs k = 0, then no demeaning takes place and
+             the effective sample size remains n.
+             If the user inputs k >= 1, then it signifies that the data X 
+             has already been demeaned or otherwise pre-processed; for example,
+             the data might constitute OLS residuals based on a linear regression
+             model with k regressors. No further demeaning takes place then,
+             but the effective sample size is adjusted accordingly by subtracting k.
 
     Returns:
         `numpy.ndarray`: Shrunk covariance matrix
@@ -20,7 +30,11 @@ def shrink_cov(data):
     shape = data.shape
     assert len(shape) == 2, 'input must be a 2d array'
     n, p = shape
+    if k is None:
+        data = data - np.mean(data, axis=0)
+        k = 1
 
+    n = n - k  # effective sample size
     assert n >= 12, "sample size n must be >= 12"
     sample = np.dot(data.T, data) / n
     # % extract sample eigenvalues sorted in ascending order and eigenvectors
@@ -32,12 +46,15 @@ def shrink_cov(data):
     # % Equation(4.9)
     H = h * L.T
     x = (L - L.T) / H
-    ftilde = (3 / 4. / np.sqrt(5)) * np.mean(np.maximum(1 - x ** 2. / 5., 0) / H, 1)
+    ftilde = (3 / 4. / np.sqrt(5)) * np.mean(np.maximum(
+        1 - x ** 2. / 5., 0) / H, 1)
     # % Equation(4.7)
-    Hftemp = (-3 / 10 / np.pi) * x + (3 / 4. / np.sqrt(5) / np.pi) * (1 - x ** 2. / 5.) \
-        * np.log(np.abs((np.sqrt(5) - x) / (np.sqrt(5) + x)))
+    Hftemp = (-3 / 10 / np.pi) * x + (3 / 4. / np.sqrt(5)
+                                      / np.pi) * (1 - x ** 2. / 5.) * np.log(
+        np.abs((np.sqrt(5) - x) / (np.sqrt(5) + x)))
     # % Equation(4.8)
-    Hftemp[np.abs(x) == np.sqrt(5)] = (-3 / 10 / np.pi) * x[np.abs(x) == np.sqrt(5)]
+    Hftemp[np.abs(x) == np.sqrt(5)] = \
+        (-3 / 10 / np.pi) * x[np.abs(x) == np.sqrt(5)]
     Hftilde = np.mean(Hftemp / H, 1)
     if p <= n:
         dtilde = lam / ((np.pi * (p / n) * lam * ftilde) ** 2
