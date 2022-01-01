@@ -32,7 +32,7 @@ if __name__ == '__main__':
             y = np.dot(xx, s_sqrt)
             s_tilde = nls.shrink_cov(y)
             s_sample = np.cov(y.T)
-            pr = ana.prial(s_sample, s_tilde, sigma)
+            pr = nls.prial(s_sample, s_tilde, sigma)
 
             prial[j] = float(pr)
 
